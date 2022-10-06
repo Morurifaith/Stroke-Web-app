@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct  5 22:17:20 2022
+
+@author: ALVIN
+"""
+
+import numpy as np
+import pickle
+import streamlit as st
+
+
+loaded_model=pickle.load(open('C:/Users/ALVIN/Desktop/Deploying ML model/Stroke_Prediction.sav', 'rb'))
+
+#creating a function
+
+def stroke_pred(input_data):
+    
+    
+    input_data_as_numpy_array=np.asarray(input_data)
+    
+    input_data_reshaped=input_data_as_numpy_array.reshape(1,-1)
+    
+    prediction=loaded_model.predict(input_data_reshaped)
+    print(prediction)
+    
+    if(prediction[0]==0):
+        return 'The person has a risk of getting stroke'
+    else:
+        return 'The person has no risk of getting stroke'
+
+
+def main():
+    
+    #giving a title
+    st.title('Stroke Risk Prediction Web App')
+
+    #getting the input data from the user
+    
+    gender=st.text_input('0 for male and 1 for female')
+    age=st.text_input('Age')
+    hypertension=st.text_input('whether they had hypertension before')
+    heart_disease=st.text_input('whether they have a heart disease')
+    ever_married=st.text_input('whether they have been married before')
+    avg_glucose_level=st.text_input('the average glucose levels')
+    bmi=st.text_input('whether they have a heart disease')
+    work_type_Govt_job=st.text_input('whether they have a government job')
+    work_type_Never_worked=st.text_input('whether they have never worked before')
+    work_type_Private=st.text_input('whether they have a private job')
+    work_type_Self_employed=st.text_input('whether they are self employed')
+    Residence_type_Rural=st.text_input('whether they reside in rural area')
+    Residence_type_Urban=st.text_input('whether they reside in urban area')
+    smoking_status_Unknown=st.text_input('whether their smoking status is unknown')
+    smoking_status_formerly_smoked=st.text_input('whether they are former smokers')
+    smoking_status_never_smoked=st.text_input('whether they have a never smoked')
+    smoking_status_smokes=st.text_input('whether they smoke')
+    
+    #code for prediction
+    diagnosis=''
+    
+    #creating a button for prediction
+    
+    if st.button('Risk of Stroke Prediction'):
+        diagnosis = stroke_pred([gender,age,hypertension,heart_disease,ever_married,avg_glucose_level,bmi,work_type_Govt_job,work_type_Private,work_type_Self_employed,Residence_type_Rural,Residence_type_Urban,smoking_status_Unknown,smoking_status_formerly_smoked,smoking_status_never_smoked,smoking_status_smokes])
+                        
+    st.success(diagnosis)
+    
+if __name__=='__main__':
+   main()
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
